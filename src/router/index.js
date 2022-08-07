@@ -1,26 +1,54 @@
 /*
- * @Author: sunFulin
- * @Date: 2022-08-05 14:39:49
- * @LastEditTime: 2022-08-05 15:06:52
+ * @Author: SunFulin
+ * @Date: 2022-08-05 21:45:41
+ * @LastEditTime: 2022-08-07 21:59:42
+ * @LastEditors: Dragon
  */
-import {
-  UploadOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-const routers = [
+import { RenderRoutes } from "./utils";
+
+const Ui = ({ routes }) => (
+  <div>
+    <h3>Ui</h3>
+    <RenderRoutes routes={routes}></RenderRoutes>
+  </div>
+);
+
+export const menus = [
   {
-    path: "/planform/user",
-    name: "user",
-    title: "用户列表",
-    icon: <UploadOutlined />,
-    component: () => import("../view/user"),
+    path: "/planform/index",
+    name: "首页",
+    icon: "",
+    component: () => import("../view/index"),
   },
   {
-    path: "/planform/org",
-    name: "org",
-    title: "组织列表",
-    icon: <VideoCameraOutlined />,
-    component: () => import("../view/org"),
+    path: "/planform/systemMgment",
+    exact: true,
+    name: "系统管理",
+    component: Ui,
+    routes: [
+      {
+        path: "/planform/systemMgment/org",
+        name: "组织列表",
+        exact: true,
+        component: () => import("../view/org"),
+      },
+    ],
+  },
+  {
+    key: "/planform/systemConfig",
+    name: "系统配置",
+    exact: true,
+    routes: [
+      {
+        path: "/planform/systemConfig/power",
+        name: "功能管理",
+        exact: true,
+        component: () => import("../view/power"),
+      },
+    ],
   },
 ];
-export default routers;
+
+export const routerConfig = {
+  menus,
+};

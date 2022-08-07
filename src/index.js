@@ -1,29 +1,23 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 13:14:53
- * @LastEditTime: 2022-08-05 15:30:52
+ * @LastEditTime: 2022-08-07 13:26:32
  */
 import React from "react";
 import "antd/dist/antd.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Inbox from "./view/user";
-const routes = (
-  <Router>
-    <Routes>
-      <Route path="/inbox" component={Inbox} />
-    </Routes>
-  </Router>
-);
-const root = ReactDOM.createRoot(routes, document.getElementById("root"));
+import { BrowserRouter } from "react-router-dom";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 /**
  * React.StrictMode 严格模式下 useEffect 回执行两次
  * */
 root.render(
   // <React.StrictMode>
-  <App />
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
   // </React.StrictMode>
 );
 
