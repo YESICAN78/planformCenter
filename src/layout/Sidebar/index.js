@@ -1,7 +1,7 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:24:03
- * @LastEditTime: 2022-08-07 22:06:01
+ * @LastEditTime: 2022-08-08 17:15:41
  */
 import React, { memo, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
@@ -15,7 +15,6 @@ export default memo(() => {
   EventBus.on("handleCollapsed", (val) => {
     setCollapsed(val);
   });
-  console.log(slideMenu(menusConfig));
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo">
