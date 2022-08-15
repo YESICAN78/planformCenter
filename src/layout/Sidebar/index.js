@@ -1,14 +1,13 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:24:03
- * @LastEditTime: 2022-08-08 17:15:41
+ * @LastEditTime: 2022-08-15 17:32:32
  */
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useState } from "react";
 import { Layout, Menu } from "antd";
 import EventBus from "../../utils/eventBus";
 import { MenuUnfoldOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import slideMenu from "./slideMenu";
-import { menus as menusConfig } from "../../router/index";
 const { Sider } = Layout;
 export default memo(() => {
   const [collapsed, setCollapsed] = useState(false);
@@ -29,7 +28,7 @@ export default memo(() => {
         mode="inline"
         defaultOpenKeys={["systemMgment"]}
         defaultSelectedKeys={["index"]}
-        items={slideMenu(menusConfig)}
+        items={[]}
       ></Menu>
     </Sider>
   );
