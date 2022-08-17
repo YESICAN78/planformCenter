@@ -1,17 +1,23 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-05 11:11:59
- * @LastEditTime: 2022-08-05 11:16:34
+ * @LastEditTime: 2022-08-17 22:24:50
  */
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { Breadcrumb } from "antd";
-import './index.scss'
+import EventBus from "../../utils/eventBus";
+import "./index.scss";
 export default memo(() => {
+  let [crumb, setcrumb] = useState([]);
+  EventBus.on("BreadcrumbFn", (data) => {
+    setcrumb(data.slice(1));
+  });
   return (
     <Breadcrumb className="breadcrumb">
-      <Breadcrumb.Item>User</Breadcrumb.Item>
-      <Breadcrumb.Item>Bill</Breadcrumb.Item>
-      <Breadcrumb.Item>Bill</Breadcrumb.Item>
+      {crumb.length > 0 &&
+        crumb.map((item, index) => (
+          <Breadcrumb.Item key={item.path}>{item.name}</Breadcrumb.Item>
+        ))}
     </Breadcrumb>
   );
 });

@@ -1,32 +1,32 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:24:03
- * @LastEditTime: 2022-08-17 17:48:45
+ * @LastEditTime: 2022-08-17 22:45:19
  */
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 import EventBus from "../../utils/eventBus";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import "./index.scss";
 import { filterRouter } from "./utils";
 const { Sider } = Layout;
 export default memo(() => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  let [activePath, setActivePath] = useState("");
   const onSelect = ({ keyPath }) => {
-    console.log();
-    let path = keyPath.reverse().join("/");
-
-    let pathAnNameList = keyPath.map((path) => {
-      return getFathersByPathAndName(path, filterRouter());
-    });
-    console.log(pathAnNameList);
+    let pathList = keyPath.reverse();
+    let path = pathList.join("/");
     navigate(path);
+  };
+  const BreadcrumbFn = (list) => {
+    EventBus.emit("BreadcrumbFn", list);
   };
   const getFathersByPathAndName = (path, data) => {
     const arr = [];
-    const back = () => {
+    const back = (path, data) => {
       for (let i = 0, length = data.length; i < length; i++) {
         const node = data[i];
         if (node.key === path) {
@@ -49,15 +49,31 @@ export default memo(() => {
       }
       return false;
     };
-    back();
-    console.log(arr)
+    back(path, data);
     return arr;
   };
   EventBus.on("handleCollapsed", (val) => {
     setCollapsed(val);
   });
+  useEffect(() => {
+    if (location) {
+      let pathList = location.pathname.split("/").slice(1);
+      pathList[0] = `/${pathList[0]}`;
+      let pathAnNameList = getFathersByPathAndName(
+        pathList[pathList.length - 1],
+        filterRouter()
+      );
+      setActivePath(pathList[pathList.length - 1]);
+      BreadcrumbFn(pathAnNameList);
+    }
+  }, [location]);
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Sider
+      trigger={null}
+      collapsible
+      collapsed={collapsed}
+      style={{ backgroundColor: "#3b83e4" }}
+    >
       <div className="system_logo">
         {collapsed ? (
           <MenuUnfoldOutlined className="collapsed" />
@@ -65,14 +81,16 @@ export default memo(() => {
           <div>PLANFORMCENTER</div>
         )}
       </div>
-      <Menu
-        theme="dark"
-        mode="inline"
-        defaultOpenKeys={[filterRouter()[0].key]}
-        defaultSelectedKeys={filterRouter()[0].children[0].key}
-        items={filterRouter()}
-        onSelect={onSelect}
-      ></Menu>
+      {activePath && (
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultOpenKeys={[filterRouter()[0].key]}
+          defaultSelectedKeys={activePath}
+          items={filterRouter()}
+          onSelect={onSelect}
+        ></Menu>
+      )}
     </Sider>
   );
 });
