@@ -1,14 +1,15 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 13:45:52
- * @LastEditTime: 2022-08-15 17:37:43
+ * @LastEditTime: 2022-08-17 09:12:21
  */
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import AppMain from "./AppMain";
 import Breadcrumb from "./Breadcrumb";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout } from "antd";
 import React, { memo } from "react";
+import "./index.scss";
 export default memo(() => {
   return (
     <div className="flow_layout">
