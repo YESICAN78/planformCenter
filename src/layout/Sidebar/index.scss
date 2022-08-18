@@ -1,8 +1,49 @@
-.system_logo {
-  color: #ffff;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  font-size: 18px;
-  font-weight: bold;
+.SidebarBox {
+  background-color: #3b83e4;
+  color: #ffff !important;
+  .ant-layout-sider,
+  .ant-menu,
+  .ant-menu-sub.ant-menu-inline {
+    background-color: #3b83e4;
+    color: #ffff !important;
+  }
+  .ant-menu-submenu-selected {
+    background-color: #3b83e4;
+    color: #ffff !important;
+  }
+  .ant-menu-item {
+    margin: 0 !important;
+  }
+  // 设置收缩后的右边框
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
+    border-right: none;
+  }
+  .ant-menu-submenu-arrow {
+    color: #ffff !important;
+  }
+  // 设置未选中菜单项鼠标滑过样式
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #599af3 !important;
+    color: #ffff !important;
+  }
+  // 设置未选中菜单项鼠标滑过样式
+  .ant-menu-item-active {
+    background-color: #599af3 !important;
+    color: #ffff !important;
+  }
+  .ant-menu-submenu-title:hover {
+    color: #fff;
+  }
+  .ant-menu-submenu-active {
+    background-color: #599af3 !important;
+  }
+  .system_logo {
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+  }
 }

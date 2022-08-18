@@ -1,9 +1,9 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-17 13:03:20
- * @LastEditTime: 2022-08-17 17:31:39
+ * @LastEditTime: 2022-08-18 17:57:28
  */
-import { routers } from "../../router/index";
+import routers from "../../router/index";
 export function filterRouter() {
   return routers.map((rt) => {
     return {
@@ -19,4 +19,27 @@ export function filterRouter() {
       }),
     };
   });
+}
+// 获取第三级路由
+export function getThirdLevelMenu3(path) {
+  let pathArr = [];
+  const back = (path, data) => {
+    if (data) {
+      for (let i = 0, length = data.length; i < length; i++) {
+        const node = data[i];
+        if (node.path === path && node.children) {
+          pathArr = node.children.map((item) => {
+            return {
+              label: item.name,
+              key: item.path,
+            };
+          });
+        } else {
+          back(path, node.children);
+        }
+      }
+    }
+  };
+  back(path, routers);
+  return pathArr;
 }

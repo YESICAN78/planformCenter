@@ -1,7 +1,7 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:24:03
- * @LastEditTime: 2022-08-17 22:45:19
+ * @LastEditTime: 2022-08-18 18:10:52
  */
 import React, { memo, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
@@ -9,7 +9,7 @@ import EventBus from "../../utils/eventBus";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import "./index.scss";
-import { filterRouter } from "./utils";
+import { filterRouter, getThirdLevelMenu3 } from "./utils";
 const { Sider } = Layout;
 export default memo(() => {
   const location = useLocation();
@@ -63,34 +63,34 @@ export default memo(() => {
         pathList[pathList.length - 1],
         filterRouter()
       );
+      EventBus.emit(
+        "getThirdLeve3Fn",
+        getThirdLevelMenu3(pathList[pathList.length - 1])
+      );
       setActivePath(pathList[pathList.length - 1]);
       BreadcrumbFn(pathAnNameList);
     }
   }, [location]);
   return (
-    <Sider
-      trigger={null}
-      collapsible
-      collapsed={collapsed}
-      style={{ backgroundColor: "#3b83e4" }}
-    >
-      <div className="system_logo">
-        {collapsed ? (
-          <MenuUnfoldOutlined className="collapsed" />
-        ) : (
-          <div>PLANFORMCENTER</div>
+    <div className="SidebarBox">
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className="system_logo">
+          {collapsed ? (
+            <MenuUnfoldOutlined className="collapsed" />
+          ) : (
+            <div>PLANFORMCENTER</div>
+          )}
+        </div>
+        {activePath && (
+          <Menu
+            mode="inline"
+            defaultOpenKeys={[filterRouter()[0].key]}
+            defaultSelectedKeys={activePath}
+            items={filterRouter()}
+            onSelect={onSelect}
+          ></Menu>
         )}
-      </div>
-      {activePath && (
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultOpenKeys={[filterRouter()[0].key]}
-          defaultSelectedKeys={activePath}
-          items={filterRouter()}
-          onSelect={onSelect}
-        ></Menu>
-      )}
-    </Sider>
+      </Sider>
+    </div>
   );
 });
