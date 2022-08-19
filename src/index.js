@@ -1,11 +1,12 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 13:14:53
- * @LastEditTime: 2022-08-15 16:52:56
+ * @LastEditTime: 2022-08-18 09:25:03
  */
 import React from "react";
 import "antd/dist/antd.min.css";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 /**
@@ -13,6 +14,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
  * */
 root.render(
   // <React.StrictMode>
-  <App />
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
   // </React.StrictMode>
 );

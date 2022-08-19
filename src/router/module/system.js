@@ -1,29 +1,40 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-17 13:30:06
- * @LastEditTime: 2022-08-17 15:42:43
+ * @LastEditTime: 2022-08-18 17:43:01
  */
-import { CalendarOutlined, PicLeftOutlined } from "@ant-design/icons";
-import Power from "../../view/power";
+import { CalendarOutlined } from "@ant-design/icons";
 import Org from "../../view/org";
+import User from "../../view/user";
+import Index from "../../view/index";
 import AppLayout from "../../layout/index";
 const systemRts = [
   {
     path: "/system",
     name: "系统配置",
     element: <AppLayout />,
+    icon: <CalendarOutlined />,
     children: [
       {
         path: "org",
         name: "系统管理",
         element: <Org />,
-        icon: <PicLeftOutlined />,
       },
       {
         path: "power",
         name: "菜单管理",
-        element: <Power />,
-        icon: <CalendarOutlined />,
+        children: [
+          {
+            path: "user",
+            name: "用户",
+            element: <User />,
+          },
+          {
+            path: "index",
+            name: "首页",
+            element: <Index />,
+          },
+        ],
       },
     ],
   },
