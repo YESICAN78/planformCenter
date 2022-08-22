@@ -1,17 +1,21 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-05 11:11:59
- * @LastEditTime: 2022-08-17 22:24:50
+ * @LastEditTime: 2022-08-22 17:43:50
  */
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Breadcrumb } from "antd";
-import EventBus from "../../utils/eventBus";
+import store from "../../store";
 import "./index.scss";
 export default memo(() => {
   let [crumb, setcrumb] = useState([]);
-  EventBus.on("BreadcrumbFn", (data) => {
-    setcrumb(data.slice(1));
-  });
+
+  useEffect(() => {
+    setcrumb(store.getState().routerModule.clickAllPath);
+    store.subscribe(() => {
+      setcrumb(store.getState().routerModule.clickAllPath);
+    });
+  }, [crumb]);
   return (
     <Breadcrumb className="breadcrumb">
       {crumb.length > 0 &&

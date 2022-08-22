@@ -1,32 +1,43 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-18 16:02:30
- * @LastEditTime: 2022-08-18 18:09:04
+ * @LastEditTime: 2022-08-22 17:49:51
  */
-import React, { useState, memo } from "react";
+import React, { useState, memo, useEffect } from "react";
 import { DoubleRightOutlined, DoubleLeftOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import EventBus from "../../utils/eventBus";
+import { getFathersByPathAndName } from "../Sidebar/utils";
+import store from "../../store";
+import { setClickAllPath } from "../../store/actionCreators";
 import { Menu } from "antd";
 import "./index.scss";
 export default memo((props) => {
-  const { onChange } = props;
   const location = useLocation();
   const navigate = useNavigate();
-  const [collapsed, setcollapsed] = useState(true);
-  let [thirdLeve, setthirdLeve] = useState([]);
+  const [collapsed, setcollapsed] = useState(false);
+  let [activePath, setActivePath] = useState("");
   const handleIocnClick = () => {
     setcollapsed(!collapsed);
   };
   const onSelect = ({ keyPath }) => {
-    let path = location.pathname + "/" + keyPath;
+    let list = getFathersByPathAndName(keyPath[0]);
+    let path = "";
+    (list || []).map((item, index) => {
+      path += index > 0 ? "/" + item.path : "" + item.path;
+    });
+    const action = setClickAllPath(list);
+    store.dispatch(action);
     navigate(path);
-    onChange(false);
   };
-  // EventBus.on("getThirdLeve3Fn", (data) => {
-  //   // setthirdLeve(data);
-  //   console.log(data);
-  // });
+  useEffect(() => {
+    if (location) {
+      let pathList = location.pathname.split("/").slice(1);
+      pathList[0] = `/${pathList[0]}`;
+      let list = getFathersByPathAndName(pathList[pathList.length - 1]);
+      const action = setClickAllPath(list);
+      store.dispatch(action);
+    }
+  }, [location]);
   return (
     <div className="thirdLevelMenuBox" style={{ width: collapsed ? 0 : 200 }}>
       {!collapsed ? (
@@ -34,6 +45,7 @@ export default memo((props) => {
           <Menu
             mode="inline"
             onSelect={onSelect}
+            defaultSelectedKeys={activePath}
             items={[
               {
                 key: "user",

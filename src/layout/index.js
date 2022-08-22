@@ -1,9 +1,9 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 13:45:52
- * @LastEditTime: 2022-08-18 18:15:36
+ * @LastEditTime: 2022-08-22 17:13:25
  */
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import AppMain from "./AppMain";
@@ -11,21 +11,17 @@ import Breadcrumb from "./Breadcrumb";
 import Level3Nav from "./Level_3_nav";
 import { Layout } from "antd";
 import { useLocation } from "react-router-dom";
-import EventBus from "../utils/eventBus";
+import store from "../store";
 import "./index.scss";
 export default memo(() => {
-  const location = useLocation();
-  let [showLeve3, setshowLeve3] = useState(false);
-  EventBus.on("getThirdLeve3Fn", (data) => {
-    console.log(location.pathname);
-    if (location.pathname.split("/").length < 4) {
-      setshowLeve3(false);
-    }
-    if (data.length > 0) {
-      setshowLeve3(true);
-    }
-  });
-  const leve3Change = (val) => {};
+  let [menuLeve3, setMenuLeve3] = useState([]);
+  useEffect(() => {
+    setMenuLeve3(store.getState().routerModule.menLeve3);
+    // 监听redux state 数据的变化回调
+    store.subscribe(() => {
+      setMenuLeve3(store.getState().routerModule.menLeve3);
+    });
+  }, []);
   return (
     <div className="flow_layout">
       <Layout className="app-main">
@@ -34,7 +30,7 @@ export default memo(() => {
           <Header />
           <Breadcrumb />
           <div style={{ display: "flex", height: "100%" }}>
-            {showLeve3 && <Level3Nav onChange={leve3Change} />}
+            {menuLeve3.length > 0 && <Level3Nav menu={menuLeve3} />}
             <AppMain />
           </div>
         </Layout>

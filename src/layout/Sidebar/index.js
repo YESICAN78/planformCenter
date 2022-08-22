@@ -1,76 +1,64 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:24:03
- * @LastEditTime: 2022-08-18 18:10:52
+ * @LastEditTime: 2022-08-22 17:42:53
  */
 import React, { memo, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
-import EventBus from "../../utils/eventBus";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
+import {
+  setSildBar,
+  setMenLeve3,
+  setClickAllPath,
+} from "../../store/actionCreators";
+import store from "../../store";
 import "./index.scss";
-import { filterRouter, getThirdLevelMenu3 } from "./utils";
+import { getMenuLeve3, getFathersByPathAndName } from "./utils";
 const { Sider } = Layout;
 export default memo(() => {
-  const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  let [menu, setMenu] = useState([]);
   let [activePath, setActivePath] = useState("");
   const onSelect = ({ keyPath }) => {
     let pathList = keyPath.reverse();
     let path = pathList.join("/");
+    let leve3Nav = getMenuLeve3(pathList[pathList.length - 1]);
+    console.log(leve3Nav);
+    let action = setMenLeve3(leve3Nav);
+    if (leve3Nav.length > 0) {
+      store.dispatch(action);
+    } else {
+      store.dispatch(action);
+    }
+    let clickAllPath = getFathersByPathAndName(pathList[pathList.length - 1]);
+    const action1 = setClickAllPath(clickAllPath);
+    store.dispatch(action1);
     navigate(path);
   };
-  const BreadcrumbFn = (list) => {
-    EventBus.emit("BreadcrumbFn", list);
+  const filterRouter = (routers) => {
+    return routers.map((rt) => {
+      return {
+        label: rt.name,
+        key: rt.path,
+        icon: rt.icon || "",
+        children: rt.children.map((child) => {
+          return {
+            label: child.name,
+            key: child.path,
+            icon: child.icon || "",
+          };
+        }),
+      };
+    });
   };
-  const getFathersByPathAndName = (path, data) => {
-    const arr = [];
-    const back = (path, data) => {
-      for (let i = 0, length = data.length; i < length; i++) {
-        const node = data[i];
-        if (node.key === path) {
-          arr.unshift({
-            path: node.key,
-            name: node.label,
-          });
-          return true;
-        } else {
-          if (node.children && node.children.length) {
-            if (back(path, node.children)) {
-              arr.unshift({
-                path: node.key,
-                name: node.label,
-              });
-              return true;
-            }
-          }
-        }
-      }
-      return false;
-    };
-    back(path, data);
-    return arr;
-  };
-  EventBus.on("handleCollapsed", (val) => {
-    setCollapsed(val);
-  });
   useEffect(() => {
-    if (location) {
-      let pathList = location.pathname.split("/").slice(1);
-      pathList[0] = `/${pathList[0]}`;
-      let pathAnNameList = getFathersByPathAndName(
-        pathList[pathList.length - 1],
-        filterRouter()
-      );
-      EventBus.emit(
-        "getThirdLeve3Fn",
-        getThirdLevelMenu3(pathList[pathList.length - 1])
-      );
-      setActivePath(pathList[pathList.length - 1]);
-      BreadcrumbFn(pathAnNameList);
-    }
-  }, [location]);
+    const action = setSildBar();
+    store.dispatch(action);
+    const { sidebarRouters } = store.getState().routerModule;
+    setMenu(filterRouter(sidebarRouters));
+  }, []);
   return (
     <div className="SidebarBox">
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -81,12 +69,12 @@ export default memo(() => {
             <div>PLANFORMCENTER</div>
           )}
         </div>
-        {activePath && (
+        {menu.length > 0 && (
           <Menu
             mode="inline"
-            defaultOpenKeys={[filterRouter()[0].key]}
+            defaultOpenKeys={[menu[0].key]}
             defaultSelectedKeys={activePath}
-            items={filterRouter()}
+            items={menu}
             onSelect={onSelect}
           ></Menu>
         )}

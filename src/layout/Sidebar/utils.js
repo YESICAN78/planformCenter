@@ -1,27 +1,40 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-17 13:03:20
- * @LastEditTime: 2022-08-18 17:57:28
+ * @LastEditTime: 2022-08-22 17:40:30
  */
-import routers from "../../router/index";
-export function filterRouter() {
-  return routers.map((rt) => {
-    return {
-      label: rt.name,
-      key: rt.path,
-      icon: rt.icon,
-      children: rt.children.map((child) => {
-        return {
-          label: child.name,
-          key: child.path,
-          icon: child.icon,
-        };
-      }),
-    };
-  });
+import store from "../../store";
+export function getFathersByPathAndName(path) {
+  const arr = [];
+  const back = (path, data) => {
+    for (let i = 0, length = data.length; i < length; i++) {
+      const node = data[i];
+      if (node.path === path) {
+        arr.unshift({
+          path: node.path,
+          name: node.name,
+        });
+        return true;
+      } else {
+        if (node.children && node.children.length) {
+          if (back(path, node.children)) {
+            arr.unshift({
+              path: node.path,
+              name: node.name,
+            });
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const { sidebarRouters } = store.getState().routerModule;
+  back(path, sidebarRouters);
+  return arr;
 }
 // 获取第三级路由
-export function getThirdLevelMenu3(path) {
+export function getMenuLeve3(path) {
   let pathArr = [];
   const back = (path, data) => {
     if (data) {
@@ -40,6 +53,7 @@ export function getThirdLevelMenu3(path) {
       }
     }
   };
-  back(path, routers);
+  const { sidebarRouters } = store.getState().routerModule;
+  back(path, sidebarRouters);
   return pathArr;
 }
