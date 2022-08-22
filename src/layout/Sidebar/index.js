@@ -1,7 +1,7 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:24:03
- * @LastEditTime: 2022-08-22 17:42:53
+ * @LastEditTime: 2022-08-22 19:47:47
  */
 import React, { memo, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
@@ -25,7 +25,6 @@ export default memo(() => {
     let pathList = keyPath.reverse();
     let path = pathList.join("/");
     let leve3Nav = getMenuLeve3(pathList[pathList.length - 1]);
-    console.log(leve3Nav);
     let action = setMenLeve3(leve3Nav);
     if (leve3Nav.length > 0) {
       store.dispatch(action);

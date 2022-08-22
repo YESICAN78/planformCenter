@@ -1,7 +1,7 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-18 16:02:30
- * @LastEditTime: 2022-08-22 17:49:51
+ * @LastEditTime: 2022-08-22 21:52:25
  */
 import React, { useState, memo, useEffect } from "react";
 import { DoubleRightOutlined, DoubleLeftOutlined } from "@ant-design/icons";
@@ -39,23 +39,19 @@ export default memo((props) => {
     }
   }, [location]);
   return (
-    <div className="thirdLevelMenuBox" style={{ width: collapsed ? 0 : 200 }}>
+    <div
+      className={`thirdLevelMenuBox ${
+        collapsed ? "slide-left" : "slide-right"
+      }`}
+      style={{ width: collapsed ? 0 : 200 }}
+    >
       {!collapsed ? (
         <div style={{ width: collapsed ? 0 : 200 }}>
           <Menu
             mode="inline"
             onSelect={onSelect}
             defaultSelectedKeys={activePath}
-            items={[
-              {
-                key: "user",
-                label: "用户",
-              },
-              {
-                key: "index",
-                label: "首页",
-              },
-            ]}
+            items={store.getState().routerModule.menLeve3}
           />
         </div>
       ) : (
