@@ -1,22 +1,24 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 17:23:59
- * @LastEditTime: 2022-08-05 13:48:53
+ * @LastEditTime: 2022-08-23 11:14:27
  */
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import React, { memo, useState, useEffect } from "react";
+import { setCollapsed } from "../../store/actionCreators";
+import store from "../../store";
 import { Layout } from "antd";
 import "./index.scss";
-import EventBus from "../../utils/eventBus";
 const { Header } = Layout;
 export default memo(() => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [open, setOpen] = useState(false);
   const collapsedChange = () => {
-    setCollapsed(!collapsed);
+    setOpen(!open);
   };
   useEffect(() => {
-    EventBus.emit("handleCollapsed", collapsed);
-  }, [collapsed]);
+    const action = setCollapsed(open);
+    store.dispatch(action)
+  }, [open]);
   return (
     <Header
       className="site-layout-background"
@@ -26,7 +28,7 @@ export default memo(() => {
     >
       <div>
         <div className="collapsedBox" onClick={collapsedChange}>
-          {collapsed ? (
+          {open ? (
             <MenuUnfoldOutlined className="collapsed" />
           ) : (
             <MenuFoldOutlined className="collapsed" />

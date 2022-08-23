@@ -1,9 +1,14 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-22 15:44:01
- * @LastEditTime: 2022-08-22 17:19:30
+ * @LastEditTime: 2022-08-23 10:01:47
  */
-const initialState = { sidebarRouters: [], menLeve3: [], clickAllPath: [] };
+const initialState = {
+  sidebarRouters: [],
+  menLeve3: [],
+  clickAllPath: [],
+  collapsed: false,
+};
 function routerReducer(state = initialState, action) {
   switch (action.type) {
     case "GENERATE_ROUTERS":
@@ -21,7 +26,11 @@ function routerReducer(state = initialState, action) {
         ...state,
         clickAllPath: action.data,
       };
-
+    case "SET_COLLAPSED":
+      return {
+        ...state,
+        collapsed: action.data,
+      };
     default:
       return state;
   }
