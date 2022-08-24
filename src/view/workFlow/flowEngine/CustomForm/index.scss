@@ -1,0 +1,8 @@
+.ItemBox {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .Item {
+    width: 50%;
+  }
+}
