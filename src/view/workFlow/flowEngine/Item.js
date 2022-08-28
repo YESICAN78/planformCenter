@@ -1,7 +1,7 @@
 /*
  * @Author: SunFulin
  * @Date: 2022-08-27 12:42:22
- * @LastEditTime: 2022-08-28 15:12:43
+ * @LastEditTime: 2022-08-28 23:10:48
  * @LastEditors: Dragon
  */
 import React, { memo, useRef } from "react";
@@ -23,8 +23,18 @@ export default memo(({ data }) => {
   const opacity = isDragging ? 0.1 : 1;
   // drag 作用是 拖动源的连接器，
   return (
-    <div ref={drag} style={{ opacity }}>
-      <Tag icon={icon}>{label}</Tag>
+    <div
+      ref={drag}
+      className="componentItem"
+      style={{
+        opacity,
+        cursor: "move",
+        width: "48%",
+      }}
+    >
+      <Tag style={{ width: "100%" }} icon={icon}>
+        {label}
+      </Tag>
     </div>
   );
 });
