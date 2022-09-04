@@ -4,4 +4,9 @@
   .ant-layout {
     height: 100%;
   }
+  .AppMain {
+    display: flex;
+    height: calc(100vh - 102.85px);
+    overflow: hidden;
+  }
 }

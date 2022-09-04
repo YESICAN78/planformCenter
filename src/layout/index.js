@@ -1,7 +1,7 @@
 /*
  * @Author: sunFulin
  * @Date: 2022-08-04 13:45:52
- * @LastEditTime: 2022-08-25 15:23:59
+ * @LastEditTime: 2022-09-03 22:19:53
  */
 import React, { memo, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
@@ -29,7 +29,7 @@ export default memo(() => {
         <Layout className="site-layout">
           <Header />
           <Breadcrumb />
-          <div style={{ display: "flex", height: "100%" }}>
+          <div className="AppMain">
             {menuLeve3.length > 0 && <Level3Nav menu={menuLeve3} />}
             <AppMain />
           </div>

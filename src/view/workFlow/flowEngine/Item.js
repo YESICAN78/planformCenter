@@ -1,7 +1,7 @@
 /*
  * @Author: SunFulin
  * @Date: 2022-08-27 12:42:22
- * @LastEditTime: 2022-08-28 23:10:48
+ * @LastEditTime: 2022-09-04 20:58:22
  * @LastEditors: Dragon
  */
 import React, { memo, useRef } from "react";
@@ -28,13 +28,10 @@ export default memo(({ data }) => {
       className="componentItem"
       style={{
         opacity,
-        cursor: "move",
-        width: "48%",
       }}
     >
-      <Tag style={{ width: "100%" }} icon={icon}>
-        {label}
-      </Tag>
+      {icon}
+      <span>{label}</span>
     </div>
   );
 });

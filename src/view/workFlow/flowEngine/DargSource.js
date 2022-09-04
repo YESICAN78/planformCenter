@@ -1,23 +1,27 @@
 /*
  * @Author: SunFulin
  * @Date: 2022-08-27 12:36:23
- * @LastEditTime: 2022-08-28 23:10:30
+ * @LastEditTime: 2022-09-04 15:13:11
  * @LastEditors: Dragon
  */
 import React, { memo } from "react";
 import Item from "./Item";
 import { formItemData } from "./config";
 import "./index.scss";
-const style = {
-  width: "100%",
-  display: "flex",
-  justifyContent: "space-between",
-};
 export default memo(() => {
   return (
-    <div style={style}>
+    <div className="DargSource scrollBox commonScrollBar">
       {formItemData.map((item, index) => (
-        <Item data={item} key={item.type} />
+        <div className="group_box">
+          <h3 className="textHead">{item.title}</h3>
+          <div className="darg_source_wrap">
+            {item.list.map((child) => (
+              <div className="DargSourceItem">
+                <Item data={child} key={child.type} />
+              </div>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   );
